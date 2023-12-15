@@ -4,8 +4,7 @@ function formatForecastWeather(data: any) {
     return data.list.map((item: any) => {
         return {
             humidity: item.main.humidity,
-            temp_max: item.main.temp_max,
-            temp_min: item.main.temp_min,
+            temp: item.main.temp,
             dt: item.dt,
             icon: item.weather[0].icon,
             details: item.weather[0].main,

@@ -62,7 +62,7 @@ export function Temperature({ weather, refreshWeather }: ITemperature) {
                         color="text-gray-400"
                     />
                 </div>
-                <div className="grid grid-cols-2 gap-x-4 sm:flex sm:flex-col space-y-2 items-baseline mt-4 sm:mt-0">
+                <div className="grid grid-cols-2 gap-x-12 sm:flex sm:flex-col space-y-1 items-baseline mt-4 sm:mt-0">
                     <SunStatusDetails
                         title="Rise"
                         value={formatToLocalTime(weather.sunrise, weather.timezone, 'HH:MM a')}

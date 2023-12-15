@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { IHistory } from '../../components/History/History';
+import { IWeatherStatus } from '../../components/Forecast/Forecast';
 export async function getWeatherHistory({ startDate, endDate }: { startDate: string | null; endDate: string | null }) {
     const data = await fetch('./fixture/history.json');
     const res = await data.json();
-    const result: IHistory[] = [];
+    const result: IWeatherStatus[] = [];
     res.map((item: any) => {
         const date = moment.utc(item.dt_iso).local().format();
         const compareDate = moment(date, 'YYYY/MM/DD');
@@ -13,8 +13,7 @@ export async function getWeatherHistory({ startDate, endDate }: { startDate: str
         if (compareDate.isBetween(start, end)) {
             result.push({
                 humidity: item.main.humidity,
-                temp_max: item.main.temp_max,
-                temp_min: item.main.temp_min,
+                temp: item.main.temp,
                 dt: item.dt,
                 icon: item.weather[0].icon,
                 details: item.weather[0].main,

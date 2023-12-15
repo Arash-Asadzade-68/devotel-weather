@@ -1,28 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import { DaysWeatherStatus } from '../Forecast/DaysWeatherStatus';
 import { Loading } from '../Loading';
 import { getWeatherHistory } from '../../services/OpenWeatherServices/getWeatherHistory';
-import { IWeatherStatus } from '../Forecast/Forecast';
 import { useSnackbarMessages } from '../../hooks/useSnackbarContext/useSnackbarMessages';
+import { HistoryReducer } from './state/history.reducer';
+import { setDateRange, setIsLoading, setWeatherHistory } from './state/history.actions';
 
 export function History() {
-    const [history, setHisory] = useState<IWeatherStatus[]>([]);
-    const { sendSnackbarMessage } = useSnackbarMessages();
-    const [state, setState] = useState({
-        startDate: null,
-        endDate: null,
+    const [state, dispatch] = useReducer(HistoryReducer, {
+        dateRange: {
+            startDate: null,
+            endDate: null,
+        },
+        history: [],
+        isLoading: false,
     });
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { sendSnackbarMessage } = useSnackbarMessages();
 
     useEffect(() => {
         async function loadWeatherHistory() {
-            const data = await getWeatherHistory(state);
-            setHisory(data);
-            setIsLoading(false);
+            const data = await getWeatherHistory(state.dateRange);
+            dispatch(setWeatherHistory(data));
+            dispatch(setIsLoading(false));
         }
-        if (state.startDate && state.endDate) {
-            setIsLoading(true);
+        if (state.dateRange.startDate && state.dateRange.endDate) {
+            dispatch(setIsLoading(true));
             try {
                 loadWeatherHistory();
             } catch (error) {
@@ -31,19 +34,19 @@ export function History() {
                 }
             }
         } else {
-            setIsLoading(false);
+            dispatch(setIsLoading(false));
         }
         // eslint-disable-next-line
-    }, [state]);
+    }, [state.dateRange]);
 
     const handleValueChange = (newValue: any) => {
-        setState(newValue);
+        dispatch(setDateRange(newValue));
     };
 
     return (
         <div>
-            <Datepicker value={state} onChange={handleValueChange} showShortcuts={true} />
-            {isLoading ? <Loading /> : <DaysWeatherStatus statuses={history} />}
+            <Datepicker value={state.dateRange} onChange={handleValueChange} showShortcuts={true} />
+            {state.isLoading ? <Loading /> : <DaysWeatherStatus statuses={state.history} />}
         </div>
     );
 }

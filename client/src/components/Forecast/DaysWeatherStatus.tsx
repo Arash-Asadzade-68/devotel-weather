@@ -1,4 +1,4 @@
-import { formatToLocalTime } from '../../utils/formatToLocalTime';
+import { calculateWeekDays, formatToLocalTime } from '../../utils/formatToLocalTime';
 import { IWeatherStatus } from './Forecast';
 import Status from './Status';
 
@@ -8,15 +8,15 @@ interface IDaysWeatherStatus {
 export function DaysWeatherStatus({ statuses }: IDaysWeatherStatus) {
     return (
         <>
-            {statuses.map((status) => (
+            {statuses.map((status, index) => (
                 <Status
-                    min={`${status.temp_min}°`}
-                    max={`${status.temp_max}°`}
+                    time={formatToLocalTime(status.dt, status.timezone, 'hh:mm')}
+                    temp={`${status.temp}°`}
                     imgSrc={`./icons/${status.icon}.png`}
                     details={status.details}
-                    day={status.day ?? formatToLocalTime(status.dt, status.timezone, 'ddd')}
+                    day={status.day ?? calculateWeekDays(index)}
                     humidity={status.humidity}
-                    key={status.humidity + status.details + status.dt}
+                    key={status.dt + index}
                 />
             ))}
         </>

@@ -26,6 +26,7 @@ export function SearchByCity({ setSearchedCity }: ISearchByCity) {
                         <li
                             className="p-3 hover:bg-slate-300 rounded-lg hover:text-slate-900 cursor-pointer"
                             id={option.value}
+                            key={option.value}
                             onClick={() => setSelectedOption(option)}
                         >
                             {option.label}

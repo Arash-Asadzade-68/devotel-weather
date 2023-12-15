@@ -8,7 +8,7 @@ interface ISunStatus {
 
 export default function SunStatusDetails({ title, value }: ISunStatus) {
     return (
-        <div className="flex items-center justify-center  text-sm  font-light">
+        <div className="flex items-center justify-start  text-sm  font-light">
             {title === 'Set' ? (
                 <TbSunset2 className="text-orange-600" />
             ) : (

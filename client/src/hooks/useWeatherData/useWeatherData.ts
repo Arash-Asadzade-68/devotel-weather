@@ -15,26 +15,28 @@ import {
 import { UNITS } from '../../pages/Home/types.d';
 import { getFormattedCurrentWeather } from '../../services/OpenWeatherServices/getFormattedCurrentWeather';
 import { getFormattedForecastWeather } from '../../services/OpenWeatherServices/getFormattedForecastWeather';
-// import { getFormattedForecastWeather } from '../../services/getFormattedForecastWeather';
 
 export function useWeatherData(lat: number, lon: number) {
     const weather = useSelector((state: RootState) => state.weather);
     const [state, dispatch] = useReducer(WeatherReducer, {
         units: UNITS.METRIC,
         weather,
+        isLoading: true,
     });
     const { sendSnackbarMessage } = useSnackbarMessages();
     const ReduxDispatcher = useDispatch();
 
     useEffect(() => {
         if (lat && lon) {
-            getCurrentWeather();
+            getWeatherDetails();
         }
         // eslint-disable-next-line
     }, [state.query, state.units, lat, lon]);
 
-    async function getCurrentWeather() {
-        dispatch(setIsLoadingState(true));
+    async function getWeatherDetails() {
+        if (!state.isLoading) {
+            dispatch(setIsLoadingState(true));
+        }
         try {
             const current = getFormattedCurrentWeather({
                 units: state.units,
@@ -46,12 +48,14 @@ export function useWeatherData(lat: number, lon: number) {
                 lat: state.query?.lat ?? lat,
                 lon: state.query?.lon ?? lon,
             });
-            Promise.all([current, forcast]).then(async (response) => {
-                dispatch(setWeatherState({ ...response[0], daily: response[1] }));
-                ReduxDispatcher(setWeather({ ...response[0], daily: response[1] }));
-            });
-
-            dispatch(setIsLoadingState(false));
+            Promise.all([current, forcast])
+                .then(async (response) => {
+                    dispatch(setWeatherState({ ...response[0], daily: response[1] }));
+                    ReduxDispatcher(setWeather({ ...response[0], daily: response[1] }));
+                })
+                .then(() => {
+                    dispatch(setIsLoadingState(false));
+                });
         } catch (error) {
             if (error instanceof Error) {
                 sendSnackbarMessage(error.message, 'error');
@@ -61,7 +65,7 @@ export function useWeatherData(lat: number, lon: number) {
     }
 
     function refreshWeather() {
-        getCurrentWeather();
+        getWeatherDetails();
     }
 
     function onChangeUnits(unit: UNITS) {

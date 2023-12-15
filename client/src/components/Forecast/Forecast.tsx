@@ -3,7 +3,7 @@ import { RiFolderHistoryFill } from 'react-icons/ri';
 import { History } from '../History/History';
 import { DaysWeatherStatus } from './DaysWeatherStatus';
 
-export interface IStatus {
+export interface IWeatherStatus {
     humidity: number;
     temp_max: number;
     temp_min: number;
@@ -11,10 +11,11 @@ export interface IStatus {
     icon: string;
     timezone: number;
     dt: number;
+    day?: string;
 }
 interface IForcast {
     title: string;
-    forcast: IStatus[];
+    forcast: IWeatherStatus[];
 }
 
 export default function Forecast({ title, forcast }: IForcast) {

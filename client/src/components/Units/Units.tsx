@@ -11,7 +11,7 @@ export function Units({ onChangeUnits, selectedUnit }: IUnits) {
             <button
                 name="metric"
                 className={`text-sm sm:text-xl text-slate-700 font-light transition ease-out hover:scale-125 ${
-                    selectedUnit === UNITS.METRIC && 'text-blue-600'
+                    selectedUnit === UNITS.METRIC ? '!text-blue-600 !scale-125' : ''
                 }`}
                 onClick={() => onChangeUnits(UNITS.METRIC)}
             >
@@ -21,7 +21,7 @@ export function Units({ onChangeUnits, selectedUnit }: IUnits) {
             <button
                 name="imperial"
                 className={`text-sm sm:text-xl text-slate-700 font-light transition ease-out hover:scale-125 ${
-                    selectedUnit === UNITS.IMPERIAL && 'text-blue-600'
+                    selectedUnit === UNITS.IMPERIAL ? '!text-blue-600 !scale-125' : ''
                 }`}
                 onClick={() => onChangeUnits(UNITS.IMPERIAL)}
             >

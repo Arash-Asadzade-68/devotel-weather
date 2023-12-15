@@ -1,5 +1,5 @@
 import { FaSearch } from 'react-icons/fa';
-import { ICityOption, useCityOptions } from '../../hooks/useCityOptions/useCityOptions';
+import { ICityOption, useCityOptions } from '../../hooks/useCityOptions';
 
 interface ISearchByCity {
     setSearchedCity: (city: ICityOption) => void;

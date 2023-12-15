@@ -1,9 +1,9 @@
 import { formatToLocalTime } from '../../utils/formatToLocalTime';
-import { IStatus } from './Forecast';
+import { IWeatherStatus } from './Forecast';
 import Status from './Status';
 
 interface IDaysWeatherStatus {
-    statuses: IStatus[];
+    statuses: IWeatherStatus[];
 }
 export function DaysWeatherStatus({ statuses }: IDaysWeatherStatus) {
     return (
@@ -14,7 +14,7 @@ export function DaysWeatherStatus({ statuses }: IDaysWeatherStatus) {
                     max={`${status.temp_max}°`}
                     imgSrc={`./icons/${status.icon}.png`}
                     details={status.details}
-                    day={formatToLocalTime(status.dt, status.timezone, 'ddd')}
+                    day={status.day ?? formatToLocalTime(status.dt, status.timezone, 'ddd')}
                     humidity={status.humidity}
                     key={status.humidity + status.details + status.dt}
                 />

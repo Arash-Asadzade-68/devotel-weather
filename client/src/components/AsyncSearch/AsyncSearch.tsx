@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { IoCloseOutline } from 'react-icons/io5';
-import { debounce } from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 
 export type Option = { label: string; value: string };
 interface IAsyncSearch {

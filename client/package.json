@@ -17,6 +17,7 @@
         "@reduxjs/toolkit": "^2.0.1",
         "@sentry/react": "^7.83.0",
         "@types/lodash.debounce": "^4.0.9",
+        "devotel-weather": "file:..",
         "firebase": "^10.7.1",
         "lodash.debounce": "^4.0.8",
         "moment": "^2.29.4",

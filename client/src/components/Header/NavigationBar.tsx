@@ -4,7 +4,7 @@ import { HOME_PAGE_URL, SIGN_IN_PAGE_URL } from '../../Routes/URLS.const';
 import { RootState } from '../../redux/store';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { signOut } from '../../redux/user/userSlice';
-import { useSnackbarMessages } from '../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../hooks/useSnackbarContext';
 
 export function NavigationBar() {
     const user = useSelector((state: RootState) => state.user);
@@ -17,7 +17,7 @@ export function NavigationBar() {
         });
         const data = await res.json();
         if (!data.success) {
-            sendSnackbarMessage('Something went wrong with your signout', 'error');
+            sendSnackbarMessage('something went wrong with your signout', 'error');
         } else {
             dispatch(signOut());
         }

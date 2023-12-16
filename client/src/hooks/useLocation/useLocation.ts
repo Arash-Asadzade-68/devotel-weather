@@ -13,6 +13,7 @@ export function useLocation() {
         | undefined
     >(undefined);
     const state = useGeolocation();
+
     useEffect(() => {
         async function getLocationByIp() {
             try {

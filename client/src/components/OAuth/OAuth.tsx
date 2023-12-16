@@ -1,10 +1,11 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { useSnackbarMessages } from '../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../hooks/useSnackbarContext';
 import { app } from '../../firebase';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../../redux/user/userSlice';
 import { HOME_PAGE_URL } from '../../Routes/URLS.const';
+import { errorHandler } from '../../utils/errorHandler';
 
 export function OAuth() {
     const { sendSnackbarMessage } = useSnackbarMessages();
@@ -17,35 +18,28 @@ export function OAuth() {
             const auth = getAuth(app);
 
             const result = await signInWithPopup(auth, provider);
-            try {
-                const response = await fetch('/api/auth/google', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name: result.user.displayName,
-                        email: result.user.email,
-                        avatar: result.user.photoURL,
-                    }),
-                });
-                const data = await response.json();
 
-                if (!data.success) {
-                    sendSnackbarMessage(data.message, 'error');
-                } else {
-                    dispatch(signInSuccess(data));
-                    navigate(HOME_PAGE_URL);
-                }
-            } catch (e) {
-                if (e instanceof Error) {
-                    sendSnackbarMessage(e.message, 'error');
-                }
+            const response = await fetch('/api/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    avatar: result.user.photoURL,
+                }),
+            });
+            const data = await response.json();
+
+            if (!data.success) {
+                sendSnackbarMessage(data.message, 'error');
+            } else {
+                dispatch(signInSuccess(data));
+                navigate(HOME_PAGE_URL);
             }
         } catch (error) {
-            if (error instanceof Error) {
-                sendSnackbarMessage(error.message, 'error');
-            }
+            errorHandler(error, sendSnackbarMessage);
         }
     }
     return (

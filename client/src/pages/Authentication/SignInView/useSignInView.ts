@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useSnackbarMessages } from '../../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../../hooks/useSnackbarContext';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 import { HOME_PAGE_URL } from '../../../Routes/URLS.const';
 import { signInSuccess } from '../../../redux/user/userSlice';
+import { errorHandler } from '../../../utils/errorHandler';
 
 interface IUser {
     email: string;
@@ -57,10 +58,8 @@ export function useSignInView() {
                 navigate(`../${HOME_PAGE_URL}`);
             }
             setIsLoading(false);
-        } catch (e) {
-            if (e instanceof Error) {
-                sendSnackbarMessage(e.message, 'error');
-            }
+        } catch (error) {
+            errorHandler(error, sendSnackbarMessage);
             setIsLoading(false);
         }
     }

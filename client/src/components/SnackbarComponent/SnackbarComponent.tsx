@@ -1,5 +1,5 @@
 import { Snackbar, Alert } from '@mui/material';
-import { useSnackbarMessages } from '../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../hooks/useSnackbarContext';
 
 /** Snackbar message which uses the snackbar context api */
 const SnackbarComponent = () => {
@@ -17,7 +17,6 @@ const SnackbarComponent = () => {
         <Snackbar
             open={isSnackbarOpen}
             onClose={onCloseSnackbar}
-            data-component-name={`snackbar-${snackbarMessage?.status}`}
             autoHideDuration={snackbarMessage?.autoHideDuration ?? 7000}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >

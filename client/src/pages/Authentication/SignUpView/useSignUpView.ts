@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useSnackbarMessages } from '../../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../../hooks/useSnackbarContext';
 import { useNavigate } from 'react-router';
 
 import { SIGN_IN_PAGE_URL } from '../../../Routes/URLS.const';
+import { errorHandler } from '../../../utils/errorHandler';
 
 interface IUser {
     username: string;
@@ -48,10 +49,8 @@ export function useSignUpView() {
                 navigate(`../${SIGN_IN_PAGE_URL}`);
             }
             setIsLoading(false);
-        } catch (e) {
-            if (e instanceof Error) {
-                sendSnackbarMessage(e.message, 'error');
-            }
+        } catch (error) {
+            errorHandler(error, sendSnackbarMessage);
             setIsLoading(false);
         }
     }

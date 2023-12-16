@@ -3,9 +3,10 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import { DaysWeatherStatus } from '../Forecast/DaysWeatherStatus';
 import { Loading } from '../Loading';
 import { getWeatherHistory } from '../../services/OpenWeatherServices/getWeatherHistory';
-import { useSnackbarMessages } from '../../hooks/useSnackbarContext/useSnackbarMessages';
+import { useSnackbarMessages } from '../../hooks/useSnackbarContext';
 import { HistoryReducer } from './state/history.reducer';
 import { setDateRange, setIsLoading, setWeatherHistory } from './state/history.actions';
+import { errorHandler } from '../../utils/errorHandler';
 
 export function History() {
     const [state, dispatch] = useReducer(HistoryReducer, {
@@ -29,9 +30,7 @@ export function History() {
             try {
                 loadWeatherHistory();
             } catch (error) {
-                if (error instanceof Error) {
-                    sendSnackbarMessage(error.message, 'error');
-                }
+                errorHandler(error, sendSnackbarMessage);
             }
         } else {
             dispatch(setIsLoading(false));

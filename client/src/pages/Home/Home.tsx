@@ -29,7 +29,7 @@ export function Home() {
                 <SearchByCity setSearchedCity={setSearchedCity} />
                 <Units onChangeUnits={onChangeUnits} selectedUnit={state.units} />
             </section>
-            <section className="flex flex-col justify-center my-6 sm:p-4  md:shadow-xl md:shadow-gray-400 rounded-xl sm:bg-white ">
+            <section className="flex flex-col justify-center my-6 sm:p-4 py-4  shadow-xl shadow-gray-400 rounded-xl bg-white ">
                 {state.isLoading ? (
                     <Spiner />
                 ) : (
@@ -39,7 +39,7 @@ export function Home() {
                     </>
                 )}
             </section>
-            <section className="flex flex-col justify-center my-6 sm:p-4  md:shadow-xl md:shadow-gray-400 rounded-xl sm:bg-white ">
+            <section className="flex flex-col justify-center my-6 sm:p-4 p-1  shadow-xl shadow-gray-400 rounded-xl bg-white">
                 {state.isLoading ? <Spiner /> : <Forecast title="daily forcast" forcast={state.weather.daily} />}
             </section>
         </div>

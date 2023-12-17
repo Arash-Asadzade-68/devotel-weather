@@ -1,10 +1,10 @@
+import { Option } from '../../components/AsyncSearch';
 import { Forecast } from '../../components/Forecast';
 import { Spiner } from '../../components/Loading';
 import { SearchByCity } from '../../components/SearchByCity';
 import { Temperature } from '../../components/Temperature';
 import { TimeAndLocation } from '../../components/TimeAndLocation';
 import { Units } from '../../components/Units';
-import { ICityOption } from '../../hooks/useCityOptions';
 import { useLocation } from '../../hooks/useLocation';
 import { useWeatherData } from '../../hooks/useWeatherData';
 import { IWeatherState, UNITS } from './types.d';
@@ -19,7 +19,7 @@ export function Home() {
     }: {
         onChangeUnits: (unit: UNITS) => void;
         refreshWeather: () => void;
-        setSearchedCity: (city: ICityOption) => void;
+        setSearchedCity: (city: Option) => void;
         state: IWeatherState;
     } = useWeatherData(lat!, lon!);
 

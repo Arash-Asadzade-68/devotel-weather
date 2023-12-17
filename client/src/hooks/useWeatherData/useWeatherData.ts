@@ -72,13 +72,17 @@ export function useWeatherData(lat: number, lon: number) {
         dispatch(setUnitsState(unit));
     }
     function setSearchedCity(city: { value: string; label: string }) {
-        const [lat, lon] = city.value.split(' ');
-        dispatch(
-            setQueryState({
-                lat,
-                lon,
-            }),
-        );
+        if (city.value.length > 0) {
+            const [lat, lon] = city.value.split(' ');
+            dispatch(
+                setQueryState({
+                    lat,
+                    lon,
+                }),
+            );
+        } else {
+            dispatch(setQueryState(null));
+        }
     }
 
     return {

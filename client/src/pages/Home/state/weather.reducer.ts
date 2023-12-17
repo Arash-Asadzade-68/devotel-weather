@@ -7,8 +7,8 @@ export function WeatherReducer(state: IWeatherState, action: { type: string; pay
             return {
                 ...state,
                 query: {
-                    lat: action.payload.lat,
-                    lon: action.payload.lon,
+                    lat: action.payload?.lat,
+                    lon: action.payload?.lon,
                 },
             };
         case SET_UNITS_STATE:

@@ -2,18 +2,14 @@ import { useMemo, useState } from 'react';
 import { getCities } from '../../services/GeoDBServices/getCities';
 import { useSnackbarMessages } from '../useSnackbarContext/useSnackbarMessages';
 import { errorHandler } from '../../utils/errorHandler';
+import { Option } from '../../components/AsyncSearch';
 
-export interface ICityOption {
-    value: string;
-    label: string;
-}
-
-export function useCityOptions(setSearchedCity: (option: ICityOption) => void) {
+export function useCityOptions(setSearchedCity: (option: Option) => void) {
     const [searchedTerm, setSearchedTerm] = useState<string>('');
-    const [options, setOptions] = useState<ICityOption[]>([]);
+    const [options, setOptions] = useState<Option[]>([]);
     const { sendSnackbarMessage } = useSnackbarMessages();
 
-    function setSelectedOption(option: ICityOption) {
+    function setSelectedOption(option: Option) {
         setSearchedTerm(option.label);
         setSearchedCity(option);
     }
@@ -36,6 +32,10 @@ export function useCityOptions(setSearchedCity: (option: ICityOption) => void) {
             }
         } else {
             setOptions([]);
+            setSearchedCity({
+                label: '',
+                value: '',
+            });
         }
         // eslint-disable-next-line
     }, [searchedTerm]);
